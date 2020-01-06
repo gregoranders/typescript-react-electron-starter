@@ -9,12 +9,14 @@ using [React](https://reactjs.org) written in [TypeScript](http://www.typescript
 
 [![Release Build][release-build-image]][release-url]
 
-[![Master Build][master-build-image]][master-url] ![Test Coverage][master-coveralls-image] [![Master Version][master-version-image]][master-version-url]
+[![Master Build][master-build-image]][master-url] [![Master Coverage][master-coveralls-image]][master-coveralls-url] [![Master Version][master-version-image]][master-version-url]
 
-[![Development Build][development-build-image]][development-url] ![Test Coverage][development-coveralls-image] [![Development Version][development-version-image]][development-version-url]
+[![Development Build][development-build-image]][development-url] [![Test Coverage][development-coveralls-image]][development-coveralls-url] [![Development Version][development-version-image]][development-version-url]
 
 [![Main Language](https://img.shields.io/github/languages/top/gregoranders/typescript-react-electron-starter)][code-metric-url] [![Languages](https://img.shields.io/github/languages/count/gregoranders/typescript-react-electron-starter)][code-metric-url] [![Code Size](https://img.shields.io/github/languages/code-size/gregoranders/typescript-react-electron-starter)][code-metric-url] [![Repo-Size](https://img.shields.io/github/repo-size/gregoranders/typescript-react-electron-starter)][code-metric-url]
 
+
+[![Coverage Status](https://coveralls.io/repos/github/gregoranders/typescript-react-electron-starter/badge.svg?branch=development)](https://coveralls.io/github/gregoranders/typescript-react-electron-starter?branch=development)
 
 ### Clone repository
 ```
@@ -96,5 +98,7 @@ npm run dist
 [master-build-image]: https://github.com/gregoranders/typescript-react-electron-starter/workflows/Master%20CI/badge.svg
 [development-build-image]: https://github.com/gregoranders/typescript-react-electron-starter/workflows/Development%20CI/badge.svg
 
+[master-coveralls-url]: https://coveralls.io/github/gregoranders/typescript-react-electron-starter?branch=master
 [master-coveralls-image]: https://img.shields.io/coveralls/github/gregoranders/typescript-react-electron-starter/master
 [development-coveralls-image]: https://img.shields.io/coveralls/github/gregoranders/typescript-react-electron-starter/development
+[development-coveralls-url]: https://coveralls.io/github/gregoranders/typescript-react-electron-starter?branch=development
