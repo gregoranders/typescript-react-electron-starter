@@ -7,10 +7,12 @@
     "workbench.colorTheme": "Electron Highlighter",
     "workbench.iconTheme": "material-icon-theme",
     "terminal.integrated.copyOnSelection": true,
-    "jest.pathToJest": "node_modules/.bin/jest",
+    "jest.pathToJest": "npm test --",
     "jest.showCoverageOnLoad": true,
     "git.alwaysSignOff": true,
     "git.autofetch": true,
     "git.enableCommitSigning": true,
-    "git.fetchOnPull": true
+    "git.fetchOnPull": true,
+    "jest.runAllTestsFirst": false,
+    "jest.enableInlineErrorMessages": true
 }

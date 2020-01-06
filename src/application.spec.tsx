@@ -7,7 +7,7 @@ import { RendererService } from "./rendererService";
 
 describe("Application", (): void => {
 
-  const service: RendererService = new RendererService();
+  const service: RendererService = new RendererService(undefined as any, undefined as any);
 
   it("Application export exists", (): void => {
     expect(TestSubject.Application).toBeDefined();

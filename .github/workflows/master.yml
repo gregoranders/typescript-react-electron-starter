@@ -46,6 +46,26 @@ jobs:
         GITHUB_HEAD_REF: ${{ github.head_ref }}
         GITHUB_BASE_REF: ${{ github.base_ref }}
         GITHUB_COMMIT: ${{ github.sha }}
+    - name: test coverage
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./coverage/lcov.info
+      env:
+        CI: true
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+        GITHUB_BRANCH: ${{ github.ref }}
+        GITHUB_HEAD_REF: ${{ github.head_ref }}
+        GITHUB_BASE_REF: ${{ github.base_ref }}
+        GITHUB_COMMIT: ${{ github.sha }}
+    - name: publish code coverage to code climate
+      if: matrix.os == 'ubuntu-latest'
+      uses: paambaati/codeclimate-action@v2.3.0
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE }}
+      with:
+        coverageCommand: npm run test
+        debug: true
     - name: release
       id: release
       uses: ./.github/actions/create-release

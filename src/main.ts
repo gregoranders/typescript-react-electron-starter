@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog, ipcMain, ipcRenderer } from "electron";
+import { app, BrowserWindow, dialog, ipcMain } from "electron";
 
 import { MainService } from "./mainService";
 
@@ -19,24 +19,22 @@ app.whenReady()
       },
     });
 
-    if (browserWindow) {
-      browserWindow.hide();
-      browserWindow.setMenuBarVisibility(false);
-      browserWindow.loadFile(path.join(__dirname, "index.html"))
-        .then((result: void): void => {
-          if (debug) {
-            browserWindow.webContents.openDevTools({
-              mode: "right",
-            });
-          }
-          const service: MainService = new MainService();
-          service.register();
-          browserWindow.show();
-        })
-        .catch((reason: any): void => {
-          dialog.showErrorBox("Error", JSON.stringify(reason));
-        });
-    }
+    browserWindow.hide();
+    browserWindow.setMenuBarVisibility(false);
+    browserWindow.loadFile(path.join(__dirname, "index.html"))
+      .then((result: void): void => {
+        if (debug) {
+          browserWindow.webContents.openDevTools({
+            mode: "right",
+          });
+        }
+        const service: MainService = new MainService(ipcMain, "main-channel");
+        service.register();
+        browserWindow.show();
+      })
+      .catch((reason: any): void => {
+        dialog.showErrorBox("Error", JSON.stringify(reason));
+      });
   }).catch((reason: any): void => {
     log.error(reason);
   });

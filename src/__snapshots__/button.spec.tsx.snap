@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button Button snapshot 1`] = `
+<div>
+  <h2>
+    1
+  </h2>
+  <button
+    className="btn btn-primary"
+    onClick={[Function]}
+  >
+    button
+  </button>
+</div>
+`;
