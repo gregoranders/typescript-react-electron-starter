@@ -1,0 +1,48 @@
+# https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions
+name: Development CI
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-2016]
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: npm install and github actions
+      run: |
+        npm install
+        npm run actions
+    - name: prebuild
+      id: prebuild
+      uses: ./.github/actions/build-info
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_BRANCH: ${{ github.ref }}
+        GITHUB_COMMIT: ${{ github.sha }}
+    - name: npm install, build, test and dist
+      run: |
+        npm install
+        npm run build
+        npm test
+        npm run dist
+      env:
+        CI: true
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+        GITHUB_BRANCH: ${{ github.ref }}
+        GITHUB_HEAD_REF: ${{ github.head_ref }}
+        GITHUB_BASE_REF: ${{ github.base_ref }}
+        GITHUB_COMMIT: ${{ github.sha }}

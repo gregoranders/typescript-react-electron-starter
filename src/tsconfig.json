@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "outDir": "../app",
+    "baseUrl": ".",
+    "jsx": "react"
+  },
+  "include": [
+    "./**/*"
+  ]
+}

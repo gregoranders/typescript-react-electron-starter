@@ -1,0 +1,16 @@
+{
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.tabSize": 2,
+    "editor.renderWhitespace": "all",
+    "editor.wordWrapColumn": 120,
+    "editor.minimap.enabled": false,
+    "workbench.colorTheme": "Electron Highlighter",
+    "workbench.iconTheme": "material-icon-theme",
+    "terminal.integrated.copyOnSelection": true,
+    "jest.pathToJest": "node_modules/.bin/jest",
+    "jest.showCoverageOnLoad": true,
+    "git.alwaysSignOff": true,
+    "git.autofetch": true,
+    "git.enableCommitSigning": true,
+    "git.fetchOnPull": true
+}

@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Application Application snapshot 1`] = `
+<div
+  className="section container"
+>
+  <h1>
+    Application loaded
+  </h1>
+  <div>
+    <h2>
+      1
+    </h2>
+    <button
+      className="btn btn-primary"
+      onClick={[Function]}
+    >
+      Toggle
+    </button>
+  </div>
+</div>
+`;

@@ -1,0 +1,10 @@
+name: 'Build Info'
+description: 'Provide build information'
+outputs:
+  name:
+    description: 'Name of project build'
+  version:
+      description: 'Version of build'
+runs:
+  using: 'node12'
+  main: 'index.js'
