@@ -12,6 +12,11 @@ async function run(): Promise<void> {
   const assetName: string = core.getInput("name", {required: true});
   const assetPath: string = core.getInput("path", {required: true});
 
+  if (!process.env.GITHUB_TOKEN) {
+    core.setFailed("Missing GitHub token");
+    return;
+  }
+
   const github: GitHub = new GitHub(process.env.GITHUB_TOKEN);
 
   const fullPathChecked: fs.PathLike = path.resolve(fs.realpathSync(assetPath));
@@ -23,7 +28,7 @@ async function run(): Promise<void> {
   try {
     const headers: Octokit.ReposUploadReleaseAssetParamsHeaders = {
       "content-length": fs.statSync(fullPathChecked).size,
-      "content-type": getType(fullPathChecked),
+      "content-type": getType(fullPathChecked) || "application/zip",
     };
 
     const response: Octokit.Response<Octokit.ReposUploadReleaseAssetResponse> = await github.repos.uploadReleaseAsset({
@@ -33,9 +38,9 @@ async function run(): Promise<void> {
       url: assetUploadURL,
     });
 
-    console.log(response.data);
+    const data: Octokit.ReposUploadReleaseAssetResponseValue = response.data as any;
 
-    core.setOutput("url", "abc");
+    core.setOutput("url", data.browser_download_url);
   } catch (error) {
     core.setFailed("Error");
     return;

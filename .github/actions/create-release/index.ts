@@ -13,6 +13,11 @@ async function run(): Promise<void> {
 
   const { owner, repo } = context.repo;
 
+  if (!process.env.GITHUB_TOKEN) {
+    core.setFailed("Missing GitHub token");
+    return;
+  }
+
   const github: GitHub = new GitHub(process.env.GITHUB_TOKEN);
 
   let releaseID: number = -1;

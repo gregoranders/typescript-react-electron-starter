@@ -46,6 +46,11 @@ jobs:
         GITHUB_HEAD_REF: ${{ github.head_ref }}
         GITHUB_BASE_REF: ${{ github.base_ref }}
         GITHUB_COMMIT: ${{ github.sha }}
+    - name: test coverage
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./coverage/lcov.info
     - name: release
       id: release
       uses: ./.github/actions/create-release

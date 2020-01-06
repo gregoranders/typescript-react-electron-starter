@@ -39,6 +39,11 @@ jobs:
         npm run build
         npm test
         npm run dist
+    - name: test coverage
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./coverage/lcov.info
       env:
         CI: true
         GITHUB_CONTEXT: ${{ toJson(github) }}

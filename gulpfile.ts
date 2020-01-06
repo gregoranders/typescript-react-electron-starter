@@ -1,3 +1,4 @@
+import * as del from "del";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
@@ -229,6 +230,12 @@ gulp.task("electron", (): Promise<void> => {
       reject(reason);
     });
   });
+});
+
+gulp.task("clear", (): Promise<string[]> => {
+  return del([path.join(basePath, ".github", "**/*.js"),
+              path.join(basePath, "src", "**/*.js"),
+              path.join(basePath, "it", "**/*.js")]);
 });
 
 gulp.task("build", gulp.series("init", gulp.parallel("html", "styles", "typescript")));
