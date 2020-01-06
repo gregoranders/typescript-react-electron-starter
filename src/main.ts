@@ -28,8 +28,8 @@ app.whenReady()
             mode: "right",
           });
         }
-        const service: MainService = new MainService();
-        service.register(ipcMain, "main-channel");
+        const service: MainService = new MainService(ipcMain, "main-channel");
+        service.register();
         browserWindow.show();
       })
       .catch((reason: any): void => {

@@ -7,7 +7,7 @@ import { Application } from "./application";
 
 import { RendererService } from "./rendererService";
 
-const service: RendererService = new RendererService();
-service.register(ipcRenderer, "render-channel");
+const service: RendererService = new RendererService(ipcRenderer, "main-channel");
+service.register();
 
 render(<Application service={ service }/>, document.getElementById("content"));

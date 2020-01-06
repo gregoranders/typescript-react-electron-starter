@@ -4,17 +4,17 @@ import { IIPCMessage } from "./ipc";
 
 import { IpcService } from "./ipcService";
 
-export class RendererService extends IpcService<Electron.IpcRendererEvent> {
+export class RendererService extends IpcService<Electron.IpcRenderer> {
 
   public ping(): void {
-    this.send(ipcRenderer, "render-channel", "ping", [1, 2, 3]);
+    this.send(this.ipc, this.channel, "ping", [1, 2, 3]);
   }
 
   protected handleMessage<MT>(event: Electron.IpcRendererEvent, message: IIPCMessage<MT>): void {
     switch (message.type) {
       case "ping":
         console.log(message);
-        this.send(event.sender, "render-channel", "pong", message.data);
+        this.send(event.sender, this.channel, "pong", message.data);
         break;
       case "pong":
         console.log(message);

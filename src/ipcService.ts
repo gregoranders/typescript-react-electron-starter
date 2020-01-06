@@ -2,10 +2,17 @@ import * as log from "fancy-log";
 
 import { IIPCMessage, IPCChannel, IPCMessageType } from "./ipc";
 
-export abstract class IpcService<T extends Electron.IpcMainEvent | Electron.IpcRendererEvent> {
+type IpcEventType<T> = T extends Electron.IpcMain ? Electron.IpcMainEvent : Electron.IpcRendererEvent;
 
-  public register(ipc: NodeJS.EventEmitter, channel: string): void {
-    ipc.on(channel, (event: T, ...args: any[]): void => {
+type IpcSenderType<T> = T extends Electron.IpcMain ? Electron.WebContents : Electron.IpcRenderer;
+
+
+export abstract class IpcService<T extends Electron.IpcMain | Electron.IpcRenderer> {
+
+  public constructor(protected ipc: T, protected channel: IPCChannel) {}
+
+  public register(): void {
+    this.ipc.on(this.channel, (event: Electron.IpcMainEvent | Electron.IpcRendererEvent, ...args: any[]): void => {
       if (args && args.length === 1) {
         const ipcMessage: IIPCMessage<any> = args[0];
         this.handleMessage(event, ipcMessage);
@@ -15,10 +22,10 @@ export abstract class IpcService<T extends Electron.IpcMainEvent | Electron.IpcR
     });
   }
 
-  protected abstract handleMessage<MT>(event: T, message: IIPCMessage<MT>): void;
+  protected abstract handleMessage<MT>(event: Electron.IpcMainEvent | Electron.IpcRendererEvent,
+                                       message: IIPCMessage<MT>): void;
 
-  protected send<MT>(sender: Electron.WebContents | Electron.IpcRenderer,
-                     channel: IPCChannel, type: IPCMessageType, data: MT): void {
+  protected send<MT>(sender: IpcSenderType<T>, channel: IPCChannel, type: IPCMessageType, data: MT): void {
     sender.send(channel, {
       data,
       timestamp: new Date(),

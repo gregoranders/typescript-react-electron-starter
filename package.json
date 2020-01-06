@@ -39,6 +39,7 @@
       "tsx",
       "js"
     ],
+    "reporters": ["jest-spec-reporter"],
     "setupFilesAfterEnv": [
       "jest-enzyme"
     ],
@@ -95,6 +96,7 @@
     "jest-cli": "24.9.0",
     "jest-environment-enzyme": "^7.1.2",
     "jest-enzyme": "^7.1.2",
+    "jest-spec-reporter": "^1.0.10",
     "mime": "2.4.4",
     "node-sass": "4.13.0",
     "react-test-renderer": "16.12.0",

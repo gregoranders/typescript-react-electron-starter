@@ -1,5 +1,4 @@
 import { mount, ReactWrapper } from "enzyme";
-// import * as Adapter from "enzyme-adapter-react-16";
 import * as React from "react";
 import * as renderer from "react-test-renderer";
 
@@ -7,9 +6,6 @@ import * as TestSubject from "./button";
 
 describe("Button", (): void => {
 
-  // beforeAll((): void => {
-  //   configure({ adapter: new Adapter() });
-  // });
 
   it("Button export exists", (): void => {
     expect(TestSubject.Button).toBeDefined();
