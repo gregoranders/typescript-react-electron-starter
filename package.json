@@ -9,10 +9,12 @@
     "actions": "gulp --gulpfile ./.github/actions/gulpfile.js --cwd .",
     "prebuild": "rimraf ./app ./dist ./coverage ./it/screenshots",
     "build": "gulp --cwd .",
-    "predist": "rimraf ./app ./dist ./coverage ./it/screenshots",
+    "predist": "rimraf ./app ./dist",
     "dist": "gulp --cwd . dist",
     "start": "electron ./",
+    "pretest": "rimraf ./coverage",
     "test": "jest --testEnvironment enzyme --coverage --coverageDirectory ../coverage --rootDir ./src",
+    "preit": "rimraf ./it/screenshots",
     "it": "jest --rootDir ./it"
   },
   "repository": {
