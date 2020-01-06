@@ -66,6 +66,8 @@ jobs:
         name: ${{ steps.prebuild.outputs.version }} Release
         body: ${{ steps.prebuild.outputs.version }}
         target: ${{ github.ref }}
+        draft: true
+        prerelease: false
     - name: upload
       id: upload
       uses: ./.github/actions/upload-asset

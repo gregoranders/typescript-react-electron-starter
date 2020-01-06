@@ -1,21 +1,21 @@
 {
   "name": "typescript-react-electron-starter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "TypeScript React Electron Starter",
   "main": "app/main.js",
   "scripts": {
-    "clear": "gulp --cwd . clear && rimraf ./node_modules ./app ./dist ./coverage ./it/screenshots ./package-lock.json ./gulpfile.js ./gulpfile.js.map ./.github/actions/gulpfile.js ./.github/actions/gulpfile.js.map",
+    "clear": "gulp --cwd . clear && rimraf ./node_modules ./app ./dist ./coverage ./coverage-it ./it/screenshots ./package-lock.json ./gulpfile.js ./gulpfile.js.map ./.github/actions/gulpfile.js ./.github/actions/gulpfile.js.map",
     "postinstall": "tsc -p ./",
     "actions": "gulp --gulpfile ./.github/actions/gulpfile.js --cwd .",
-    "prebuild": "rimraf ./app ./dist ./coverage ./it/screenshots",
+    "prebuild": "rimraf ./app ./dist ./coverage ./coverage-it ./it/screenshots",
     "build": "gulp --cwd .",
     "predist": "rimraf ./app ./dist",
     "dist": "gulp --cwd . dist",
     "start": "electron ./",
     "pretest": "rimraf ./coverage",
     "test": "jest --testEnvironment enzyme --coverage --coverageDirectory ../coverage --rootDir ./src",
-    "preit": "rimraf ./it/screenshots",
-    "it": "jest --rootDir ./it"
+    "preit": "rimraf ./coverage-it ./it/screenshots",
+    "it": "jest --runInBand --coverage --coverageDirectory ../coverage-it --rootDir ./it"
   },
   "repository": {
     "type": "git",
@@ -30,8 +30,10 @@
     "typescript"
   ],
   "jest": {
+    "collectCoverage": true,
     "collectCoverageFrom": [
       "**/*.{ts,tsx}",
+      "**/*.{js,jsx}",
       "!**/node_modules/**"
     ],
     "moduleFileExtensions": [
