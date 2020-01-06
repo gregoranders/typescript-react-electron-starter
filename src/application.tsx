@@ -4,7 +4,7 @@ import { RendererService } from "./rendererService";
 
 import { Button } from "./button";
 
-interface IApplicationProperties {
+export interface IApplicationProperties {
   service: RendererService;
 }
 

@@ -13,7 +13,6 @@ export class RendererService extends IpcService<Electron.IpcRenderer> {
   protected handleMessage<MT>(event: Electron.IpcRendererEvent, message: IIPCMessage<MT>): void {
     switch (message.type) {
       case "ping":
-        console.log(message);
         this.send(event.sender, this.channel, "pong", message.data);
         break;
       case "pong":

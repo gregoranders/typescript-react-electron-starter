@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Application Application snapshot 1`] = `
+exports[`Application snapshot 1`] = `
 <div
   className="section container"
 >
