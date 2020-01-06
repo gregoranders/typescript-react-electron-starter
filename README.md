@@ -13,10 +13,9 @@ using [React](https://reactjs.org) written in [TypeScript](http://www.typescript
 
 [![Development Build][development-build-image]][development-url] [![Test Coverage][development-coveralls-image]][development-coveralls-url] [![Development Version][development-version-image]][development-version-url]
 
+[![Code maintainability][code-maintainability-image]][code-maintainability-url] [![Code issues][code-issues-image]][code-issues-url] [![Code Technical Debt][code-tech-debt-image]][code-tech-debt-url]
+
 [![Main Language](https://img.shields.io/github/languages/top/gregoranders/typescript-react-electron-starter)][code-metric-url] [![Languages](https://img.shields.io/github/languages/count/gregoranders/typescript-react-electron-starter)][code-metric-url] [![Code Size](https://img.shields.io/github/languages/code-size/gregoranders/typescript-react-electron-starter)][code-metric-url] [![Repo-Size](https://img.shields.io/github/repo-size/gregoranders/typescript-react-electron-starter)][code-metric-url]
-
-
-[![Coverage Status](https://coveralls.io/repos/github/gregoranders/typescript-react-electron-starter/badge.svg?branch=development)](https://coveralls.io/github/gregoranders/typescript-react-electron-starter?branch=development)
 
 ### Clone repository
 ```
@@ -102,3 +101,12 @@ npm run dist
 [master-coveralls-image]: https://img.shields.io/coveralls/github/gregoranders/typescript-react-electron-starter/master
 [development-coveralls-image]: https://img.shields.io/coveralls/github/gregoranders/typescript-react-electron-starter/development
 [development-coveralls-url]: https://coveralls.io/github/gregoranders/typescript-react-electron-starter?branch=development
+
+[code-maintainability-url]: https://codeclimate.com/github/gregoranders/typescript-react-electron-starter/maintainability
+[code-maintainability-image]: https://img.shields.io/codeclimate/maintainability/gregoranders/typescript-react-electron-starter
+
+[code-issues-url]: https://codeclimate.com/github/gregoranders/typescript-react-electron-starter/maintainability
+[code-issues-image]: https://img.shields.io/codeclimate/issues/gregoranders/typescript-react-electron-starter
+
+[code-tech-debt-url]: https://codeclimate.com/github/gregoranders/typescript-react-electron-starter/maintainability
+[code-tech-debt-image]: https://img.shields.io/codeclimate/tech-debt/gregoranders/typescript-react-electron-starter
