@@ -3,9 +3,11 @@ import { context, GitHub } from "@actions/github";
 
 import * as Octokit from "@octokit/rest";
 
+type IResponse = Octokit.Response<Octokit.ReposGetLatestReleaseResponse | Octokit.ReposCreateReleaseResponse>;
+
 async function run(): Promise<void> {
-  const tag: string = core.getInput("tag", {required: true});
-  const name: string = core.getInput("name", {required: true});
+  const tag: string = core.getInput("tag", { required: true });
+  const name: string = core.getInput("name", { required: true });
   const body: string = core.getInput("body");
   const draft: boolean = core.getInput("draft") === "true";
   const prerelease: boolean = core.getInput("prerelease") === "true";
@@ -20,22 +22,17 @@ async function run(): Promise<void> {
 
   const github: GitHub = new GitHub(process.env.GITHUB_TOKEN);
 
-  let releaseID: number = -1;
-  let releaseURL: string = "";
-  let releaseUploadURL: string = "";
+  let response: undefined | IResponse;
 
   try {
-    const response: Octokit.Response<Octokit.ReposGetLatestReleaseResponse> = await github.repos.getReleaseByTag({
+    response = await github.repos.getReleaseByTag({
       owner,
       repo,
       tag,
     });
-    releaseID = response.data.id;
-    releaseURL = response.data.html_url;
-    releaseUploadURL = response.data.upload_url;
   } catch (error) {
     try {
-      const response: Octokit.Response<Octokit.ReposCreateReleaseResponse> = await github.repos.createRelease({
+      response = await github.repos.createRelease({
         body,
         draft,
         name,
@@ -45,34 +42,18 @@ async function run(): Promise<void> {
         tag_name: tag,
         target_commitish,
       });
-
-      releaseID = response.data.id;
-      releaseURL = response.data.html_url;
-      releaseUploadURL = response.data.assets_url;
     } catch (createError) {
-      core.setFailed("Error");
-      return;
+      core.setFailed("Error: " + JSON.stringify(createError));
     }
   }
 
-  if (releaseID < 0) {
-    core.setFailed("Invalid release id " + releaseID);
-    return;
+  if (response) {
+    core.setOutput("id", response.data.id.toString());
+    core.setOutput("url", response.data.html_url);
+    core.setOutput("upload_url", response.data.upload_url);
+  } else {
+    core.setFailed("Invalid release");
   }
-
-  if (!releaseURL || !releaseURL.length) {
-    core.setFailed("Invalid release URL");
-    return;
-  }
-
-  if (!releaseUploadURL || !releaseUploadURL.length) {
-    core.setFailed("Invalid release URL");
-    return;
-  }
-
-  core.setOutput("id", releaseID.toString());
-  core.setOutput("url", releaseURL);
-  core.setOutput("upload_url", releaseUploadURL);
 }
 
 run();
