@@ -59,3 +59,13 @@ jobs:
       with:
         coverageCommand: npm run test
         debug: true
+    - name: integration test
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        export DISPLAY=:99.0
+        ls -lha /dev/shm
+        sudo chmod 1777 /dev/shm
+        Xvfb :99.0 -extension RANDR > /dev/null &
+        npm run build
+        DISPLAY=:99.0 npm run it
+        killall -9 Xvfb
