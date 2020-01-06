@@ -1,10 +1,8 @@
 import { ipcMain, ipcRenderer } from "electron";
 
-export const mainChannel: string = "main-channel";
-
-export const renderChannel: string = "render-channel";
-
 export type IPCMessageType = "ping" | "pong";
+
+export type IPCChannel = "main-channel" | "render-channel";
 
 export interface IIPCMessage<T> {
   data: T;
