@@ -67,5 +67,5 @@ jobs:
         sudo apt-get install xvfb
         sudo chmod 1777 /dev/shm
         npm run build
-        xvfb-run --auto-servernum "npm run it"
+        xvfb-run --auto-servernum -- bash -c "npm run it"
         killall -9 Xvfb
