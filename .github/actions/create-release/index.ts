@@ -1,7 +1,7 @@
 import * as core from "@actions/core";
 import { context, GitHub } from "@actions/github";
 
-import * as Octokit from "@octokit/rest";
+import { Octokit } from "@actions/github/node_modules/@octokit/rest";
 
 type IResponse = Octokit.Response<Octokit.ReposGetLatestReleaseResponse | Octokit.ReposCreateReleaseResponse>;
 

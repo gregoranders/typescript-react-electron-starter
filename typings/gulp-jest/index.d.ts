@@ -3,17 +3,17 @@
 
 declare module "gulp-jest" {
 
-    interface GulpJestOptions extends jest.InitialOptions {
-    }
+  interface GulpJestOptions {
+  }
 
-    interface GulpJest {
-      (options?: GulpJestOptions): NodeJS.ReadWriteStream;
-    }
+  interface GulpJest {
+    (options?: GulpJestOptions): NodeJS.ReadWriteStream;
+  }
 
-    const _tmp: {
-      default: GulpJest;
-    }
+  const _tmp: {
+    default: GulpJest;
+  }
 
-    export = _tmp;
+  export = _tmp;
 
 }
