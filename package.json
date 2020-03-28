@@ -34,7 +34,9 @@
     "collectCoverageFrom": [
       "**/*.{ts,tsx}",
       "**/*.{js,jsx}",
-      "!**/node_modules/**"
+      "!**/node_modules/**",
+      "!main.ts",
+      "!renderer.tsx"
     ],
     "moduleFileExtensions": [
       "ts",
