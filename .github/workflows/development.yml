@@ -68,4 +68,3 @@ jobs:
         sudo chmod 1777 /dev/shm
         npm run build
         xvfb-run --auto-servernum -- bash -c "npm run it"
-        killall -9 Xvfb
