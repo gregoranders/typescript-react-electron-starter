@@ -16,10 +16,6 @@ import { createProject, Project } from "gulp-typescript";
 
 import * as sassLint from "gulp-sass-lint";
 
-import * as PackageJson from "./package.json";
-
-import * as nccCompiler from "@zeit/ncc";
-
 const now: Date = new Date();
 
 const basePath: fs.PathLike = fs.realpathSync(path.resolve(__dirname));
@@ -39,10 +35,18 @@ interface IProperties {
   commit: string;
 }
 
+interface IPackageJson {
+  author: string;
+  name: string;
+  version: string;
+}
+
 const gitProperties: IProperties = {
   branch: "",
   commit: "",
 };
+
+const PackageJson: IPackageJson = JSON.parse(process.env.PACKAGE_JSON || "");
 
 const version: () => string = (): string => {
   if (gitProperties.branch === "master" || gitProperties.branch.startsWith("v")) {
@@ -102,8 +106,8 @@ const gitCommit: (commit?: string) => string = (commit?: string): string => {
 
 gulp.task("init", (): Promise<IProperties> => {
   return new Promise<IProperties>((resolve: (properties: IProperties) => void,
-                                   reject: (reason: any) => void): void => {
-    git.revParse({ args: "--abbrev-ref HEAD", quiet: true  }, (errorBranch: string, branch: string): void => {
+    reject: (reason: any) => void): void => {
+    git.revParse({ args: "--abbrev-ref HEAD", quiet: true }, (errorBranch: string, branch: string): void => {
       if (errorBranch) {
         reject(errorBranch);
       } else {
@@ -111,6 +115,8 @@ gulp.task("init", (): Promise<IProperties> => {
           if (errorCommit) {
             reject(errorCommit);
           } else {
+            log("git rev-head", branch);
+            log("git rev-parse", commit);
             gitProperties.branch = gitBranch(branch);
             gitProperties.commit = gitCommit(commit);
             log("OS:", os.platform(), "Arch:", os.arch());
@@ -234,8 +240,8 @@ gulp.task("electron", (): Promise<void> => {
 
 gulp.task("clear", (): Promise<string[]> => {
   return del([path.join(basePath, ".github", "**/*.js"),
-              path.join(basePath, "src", "**/*.js"),
-              path.join(basePath, "it", "**/*.js")]);
+  path.join(basePath, "src", "**/*.js"),
+  path.join(basePath, "it", "**/*.js")]);
 });
 
 gulp.task("build", gulp.series("init", gulp.parallel("html", "styles", "typescript")));

@@ -22,23 +22,25 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: npm install and github actions
+    - name: nodejs project information
+      id: projectinfo
+      uses: gregoranders/nodejs-project-info@v0.0.4
+    - name: npm install
       run: |
         npm install
-        npm run actions
-    - name: prebuild
-      id: prebuild
-      uses: ./.github/actions/build-info
+    - name: npm run build
+      run: |
+        npm run build
+    - name: npm test
+      run: |
+        npm test
+    - name: npm run dist
+      run: |
+        npm run dist
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_BRANCH: ${{ github.ref }}
         GITHUB_COMMIT: ${{ github.sha }}
-    - name: npm install, build, test and dist
-      run: |
-        npm install
-        npm run build
-        npm test
-        npm run dist
+        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
     - name: test coverage
       uses: coverallsapp/github-action@master
       with:
