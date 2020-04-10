@@ -95,6 +95,9 @@ jobs:
         tag: v${{ steps.projectinfo.outputs.version }}
         name: ${{ steps.projectinfo.outputs.name }} - ${{ steps.projectinfo.outputs.version }} Release
         target: ${{ github.ref }}
+    - name: npm run actions
+      run: |
+        npm run actions
     - name: prepare release
       id: prepare
       uses: ./.github/actions/prepare-release
