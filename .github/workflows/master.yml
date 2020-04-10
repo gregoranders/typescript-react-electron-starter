@@ -22,30 +22,39 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: npm install and github actions
+    - name: nodejs project information
+      id: projectinfo
+      uses: gregoranders/nodejs-project-info@v0.0.4
+    - name: npm install
       run: |
         npm install
-        npm run actions
-    - name: prebuild
-      id: prebuild
-      uses: ./.github/actions/build-info
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_BRANCH: ${{ github.ref }}
-        GITHUB_COMMIT: ${{ github.sha }}
-    - name: npm install, build, test and dist
+    - name: npm run build
       run: |
-        npm install
         npm run build
-        npm test
-        npm run dist
       env:
-        CI: true
-        GITHUB_CONTEXT: ${{ toJson(github) }}
         GITHUB_BRANCH: ${{ github.ref }}
-        GITHUB_HEAD_REF: ${{ github.head_ref }}
-        GITHUB_BASE_REF: ${{ github.base_ref }}
         GITHUB_COMMIT: ${{ github.sha }}
+        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
+    - name: npm test
+      run: |
+        npm test
+      env:
+        GITHUB_BRANCH: ${{ github.ref }}
+        GITHUB_COMMIT: ${{ github.sha }}
+        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
+    - name: npm run it
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        ls -lha /dev/shm
+        sudo apt-get update
+        sudo apt-get install xvfb
+        sudo chmod 1777 /dev/shm
+        npm run build
+        xvfb-run --auto-servernum -- bash -c "npm run it"
+      env:
+        GITHUB_BRANCH: ${{ github.ref }}
+        GITHUB_COMMIT: ${{ github.sha }}
+        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
     - name: test coverage
       uses: coverallsapp/github-action@master
       with:
@@ -63,18 +72,25 @@ jobs:
       uses: paambaati/codeclimate-action@v2.3.0
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE }}
+        GITHUB_BRANCH: ${{ github.ref }}
+        GITHUB_COMMIT: ${{ github.sha }}
+        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
       with:
         coverageCommand: npm run test
         debug: true
-    - name: release
-      id: release
-      uses: ./.github/actions/create-release
+    - name: npm run dist
+      run: |
+        npm run dist
+      env:
+        GITHUB_BRANCH: ${{ github.ref }}
+        GITHUB_COMMIT: ${{ github.sha }}
+        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
+    - name: create release
+      id: createrelease
+      uses: gregoranders/nodejs-create-release@v0.0.4
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag: v${{ steps.prebuild.outputs.version }}
-        name: ${{ steps.prebuild.outputs.version }} Release
-        body: ${{ steps.prebuild.outputs.version }}
+        tag: v${{ steps.projectinfo.outputs.version }}
+        name: ${{ steps.projectinfo.outputs.name }} - ${{ steps.projectinfo.outputs.version }} Release
         target: ${{ github.ref }}
-        draft: true
-        prerelease: false

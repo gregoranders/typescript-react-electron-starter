@@ -55,16 +55,6 @@ jobs:
         GITHUB_BRANCH: ${{ github.ref }}
         GITHUB_COMMIT: ${{ github.sha }}
         PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
-    - name: npm run dist
-      run: |
-        npm run dist
-      env:
-        GITHUB_BRANCH: ${{ github.ref }}
-        GITHUB_COMMIT: ${{ github.sha }}
-        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
-    - name: post
-      run: |
-        env
     - name: test coverage
       uses: coverallsapp/github-action@master
       with:
@@ -82,6 +72,16 @@ jobs:
       uses: paambaati/codeclimate-action@v2.3.0
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE }}
+        GITHUB_BRANCH: ${{ github.ref }}
+        GITHUB_COMMIT: ${{ github.sha }}
+        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
       with:
         coverageCommand: npm run test
         debug: true
+    - name: npm run dist
+      run: |
+        npm run dist
+      env:
+        GITHUB_BRANCH: ${{ github.ref }}
+        GITHUB_COMMIT: ${{ github.sha }}
+        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
