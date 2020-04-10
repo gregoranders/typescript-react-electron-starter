@@ -5,7 +5,7 @@
 		}
 	],
 	"settings": {
-		"workbench.colorTheme": "Nord",
+		"workbench.colorTheme": "Nord Deep",
 		"workbench.iconTheme": "material-icon-theme",
 		"terminal.integrated.copyOnSelection": true,
 		"jest.enableInlineErrorMessages": true,
@@ -20,7 +20,9 @@
 			"orta.vscode-jest",
 			"eg2.vscode-npm-script",
 			"pflannery.vscode-versionlens",
-			"visualstudioexptteam.vscodeintellicode"
+      "visualstudioexptteam.vscodeintellicode",
+      "pkief.material-icon-theme",
+      "marlosirapuan.nord-deep"
 		]
 	}
 }
