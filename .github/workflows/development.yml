@@ -31,9 +31,17 @@ jobs:
     - name: npm run build
       run: |
         npm run build
+      env:
+        GITHUB_BRANCH: ${{ github.ref }}
+        GITHUB_COMMIT: ${{ github.sha }}
+        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
     - name: npm test
       run: |
         npm test
+      env:
+        GITHUB_BRANCH: ${{ github.ref }}
+        GITHUB_COMMIT: ${{ github.sha }}
+        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
     - name: npm run dist
       run: |
         npm run dist
