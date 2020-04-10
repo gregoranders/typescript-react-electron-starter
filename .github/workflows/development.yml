@@ -42,6 +42,19 @@ jobs:
         GITHUB_BRANCH: ${{ github.ref }}
         GITHUB_COMMIT: ${{ github.sha }}
         PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
+    - name: npm run it
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        ls -lha /dev/shm
+        sudo apt-get update
+        sudo apt-get install xvfb
+        sudo chmod 1777 /dev/shm
+        npm run build
+        xvfb-run --auto-servernum -- bash -c "npm run it"
+      env:
+        GITHUB_BRANCH: ${{ github.ref }}
+        GITHUB_COMMIT: ${{ github.sha }}
+        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
     - name: npm run dist
       run: |
         npm run dist
@@ -49,6 +62,9 @@ jobs:
         GITHUB_BRANCH: ${{ github.ref }}
         GITHUB_COMMIT: ${{ github.sha }}
         PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
+    - name: post
+      run: |
+        env
     - name: test coverage
       uses: coverallsapp/github-action@master
       with:
@@ -69,12 +85,3 @@ jobs:
       with:
         coverageCommand: npm run test
         debug: true
-    - name: integration test
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        ls -lha /dev/shm
-        sudo apt-get update
-        sudo apt-get install xvfb
-        sudo chmod 1777 /dev/shm
-        npm run build
-        xvfb-run --auto-servernum -- bash -c "npm run it"

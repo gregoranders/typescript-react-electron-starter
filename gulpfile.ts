@@ -28,6 +28,8 @@ const stylesBuildPath: fs.PathLike = path.join(buildPath, "styles/");
 
 const distPath: fs.PathLike = path.join(basePath, "dist/");
 
+import * as PackageJsonImported from "./package.json";
+
 const typeScriptProject: Project = createProject(path.join(srcPath, "tsconfig.json"));
 
 interface IProperties {
@@ -46,7 +48,7 @@ const gitProperties: IProperties = {
   commit: "",
 };
 
-const PackageJson: IPackageJson = JSON.parse(process.env.PACKAGE_JSON || "");
+const PackageJson: IPackageJson = JSON.parse(process.env.PACKAGE_JSON || JSON.stringify(PackageJsonImported));
 
 const version: () => string = (): string => {
   if (gitProperties.branch === "master" || gitProperties.branch.startsWith("v")) {
@@ -115,8 +117,6 @@ gulp.task("init", (): Promise<IProperties> => {
           if (errorCommit) {
             reject(errorCommit);
           } else {
-            log("git rev-head", branch);
-            log("git rev-parse", commit);
             gitProperties.branch = gitBranch(branch);
             gitProperties.commit = gitCommit(commit);
             log("OS:", os.platform(), "Arch:", os.arch());
@@ -226,6 +226,7 @@ gulp.task("electron", (): Promise<void> => {
       archive.pipe(output);
       archive.directory(srcDirPath, pkgName());
       archive.finalize().then((): void => {
+        process.env.PACKAGE_PATH = filePath;
         resolve();
       }).catch((reason: any): void => {
         log("Failed", reason);
