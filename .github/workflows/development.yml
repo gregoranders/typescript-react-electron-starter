@@ -24,7 +24,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: nodejs project information
       id: projectinfo
-      uses: gregoranders/nodejs-project-info@v0.0.4
+      uses: gregoranders/nodejs-project-info@v0.0.6
     - name: npm install
       run: |
         npm install
