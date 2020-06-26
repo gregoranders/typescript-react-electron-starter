@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,
     "target": "ES6",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -10,7 +11,5 @@
     "baseUrl": ".",
     "jsx": "react"
   },
-  "include": [
-    "./**/*"
-  ]
+  "include": ["./**/*"]
 }

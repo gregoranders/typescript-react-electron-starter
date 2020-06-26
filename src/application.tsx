@@ -1,23 +1,24 @@
-import * as React from "react";
+import React from 'react';
 
-import { RendererService } from "./rendererService";
+import { RendererService } from './renderer-service';
 
-import { Button } from "./button";
+import { Button } from './button';
 
-export interface IApplicationProperties {
+type Props = {
   service: RendererService;
-}
+};
 
-export class Application extends React.Component<IApplicationProperties> {
+export const Application = ({ service }: Props) => {
+  const onClick = () => {
+    service.ping();
+  };
 
-  public render(): React.ReactNode {
-    return (<div className="section container">
+  return (
+    <div className="section container">
       <h1>Application loaded</h1>
-      <Button label="Toggle" onClick={(): void => { this.handleButtonClick(); }}/>
-    </div>);
-  }
+      <Button label="Toggle" onClick={onClick} />
+    </div>
+  );
+};
 
-  private handleButtonClick(): void {
-    this.props.service.ping();
-  }
-}
+Application.displayName = 'Application';
