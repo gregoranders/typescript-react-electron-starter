@@ -41,7 +41,7 @@ describe('test', (): void => {
 
   afterEach(
     (): Promise<number> => {
-      return new Promise<number>((resolve: (value: number) => void, reject: (error: string) => void): void => {
+      return new Promise<number>((resolve) => {
         testSubject.client.saveScreenshot(path.join(screenshotsPath, `main${counter}.png`));
         counter = counter + 1;
         resolve(counter);
