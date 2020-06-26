@@ -12,7 +12,7 @@ plugins:
   fixme:
     enabled: true
   git-legal:
-    enabled: true
+    enabled: false
 exclude_patterns:
   - '**/.github'
   - '**/.circleci'
