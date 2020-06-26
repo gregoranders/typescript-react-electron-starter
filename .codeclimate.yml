@@ -22,3 +22,5 @@ exclude_patterns:
   - '**/test'
   - '**/docs'
   - '**/node_modules/'
+  - '**/gulpfile.ts'
+  - '**/*.spec.ts'
