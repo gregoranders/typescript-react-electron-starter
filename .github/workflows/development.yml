@@ -44,7 +44,7 @@ jobs:
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ./coverage/lcov.info
+          path-to-lcov: ./test/coverage/lcov.info
         env:
           CI: true
       - name: publish code coverage to code climate
@@ -54,6 +54,8 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE }}
         with:
           coverageCommand: npm run test
+          coverageLocations: |
+            ./test/coverage/lcov.info:lcov
       - name: npm run e2e
         if: matrix.os == 'ubuntu-latest'
         run: |
