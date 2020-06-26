@@ -4,25 +4,4 @@
 			"path": "../"
 		}
 	],
-	"settings": {
-		"workbench.colorTheme": "Nord Deep",
-		"workbench.iconTheme": "material-icon-theme",
-		"terminal.integrated.copyOnSelection": true,
-		"jest.enableInlineErrorMessages": true,
-		"jest.rootPath": "./src",
-		"jest.showCoverageOnLoad": true
-	},
-	"extensions": {
-		"recommendations": [
-			"EditorConfig.EditorConfig",
-			"ms-vscode.vscode-typescript-tslint-plugin",
-			"msjsdiag.debugger-for-chrome",
-			"orta.vscode-jest",
-			"eg2.vscode-npm-script",
-			"pflannery.vscode-versionlens",
-      "visualstudioexptteam.vscodeintellicode",
-      "pkief.material-icon-theme",
-      "marlosirapuan.nord-deep"
-		]
-	}
 }

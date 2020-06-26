@@ -1,41 +1,39 @@
-import { mount, ReactWrapper } from "enzyme";
-import * as React from "react";
-import * as renderer from "react-test-renderer";
+import React from 'react';
+import { mount } from 'enzyme';
+import { create } from 'react-test-renderer';
 
-import * as TestSubject from "./button";
+import * as TestSubject from './button';
 
-describe("Button", (): void => {
-
-
-  it("Button export exists", (): void => {
+describe('Button', (): void => {
+  it('Button export exists', (): void => {
     expect(TestSubject.Button).toBeDefined();
   });
 
-  it("Button snapshot", (): void => {
-    const snapshot: renderer.ReactTestRenderer
-      = renderer.create(<TestSubject.Button label="button" onClick={ (): void => { return; } } />);
+  it('Button snapshot', (): void => {
+    const snapshot = create(<TestSubject.Button label="button" />);
     snapshot.toJSON();
     expect(snapshot).toMatchSnapshot();
   });
 
-  it("Button clicked mount", (): void => {
-    let counter: number = 0;
-    const func: jest.Mock<void, any[]> = jest.fn( (): void => {
-      counter = counter + 1;
-    });
-    const testSubject: ReactWrapper<TestSubject.IButtonProperties, TestSubject.IButtonState, TestSubject.Button>
-      = mount(<TestSubject.Button label="button" onClick={ func } />);
+  it('should change state on click', () => {
+    const testSubject = mount(<TestSubject.Button label="button" />);
 
-    expect(testSubject.text()).toBe("1button");
-    expect(counter).toBe(0);
-    expect(testSubject.state().toggle).toBeFalsy();
-    expect(func.mock.calls.length).toBe(0);
+    expect(testSubject.text()).toBe('1button');
 
-    testSubject.find("button").simulate("click");
+    testSubject.find('button').simulate('click');
+    expect(testSubject.text()).toBe('2button');
 
-    expect(testSubject.text()).toBe("2button");
-    expect(counter).toBe(1);
-    expect(testSubject.state().toggle).toBeTruthy();
-    expect(func.mock.calls.length).toBe(1);
+    testSubject.find('button').simulate('click');
+    expect(testSubject.text()).toBe('1button');
+  });
+
+  it('should invoke provided onClick handler', (): void => {
+    const onClick = jest.fn();
+    const testSubject = mount(<TestSubject.Button label="button" onClick={onClick} />);
+
+    testSubject.find('button').simulate('click');
+
+    expect(testSubject.text()).toBe('2button');
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 });

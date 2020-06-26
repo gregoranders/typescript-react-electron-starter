@@ -6,92 +6,76 @@ on:
     branches:
       - master
 
+env:
+  GITHUB_BRANCH: ${{ github.ref }}
+  GITHUB_HEAD_REF: ${{ github.head_ref }}
+  GITHUB_BASE_REF: ${{ github.base_ref }}
+  GITHUB_COMMIT: ${{ github.sha }}
+
 jobs:
   build:
-
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-2016]
+        os: [ubuntu-latest, macos-latest, windows-latest]
         node-version: [12.x]
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: nodejs project information
-      id: projectinfo
-      uses: gregoranders/nodejs-project-info@v0.0.6
-    - name: npm install
-      run: |
-        npm install
-    - name: npm run build
-      run: |
-        npm run build
-      env:
-        GITHUB_BRANCH: ${{ github.ref }}
-        GITHUB_COMMIT: ${{ github.sha }}
-        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
-    - name: npm test
-      run: |
-        npm test
-      env:
-        GITHUB_BRANCH: ${{ github.ref }}
-        GITHUB_COMMIT: ${{ github.sha }}
-        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
-    - name: test coverage
-      if: matrix.os == 'ubuntu-latest'
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ./coverage/lcov.info
-      env:
-        CI: true
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-        GITHUB_BRANCH: ${{ github.ref }}
-        GITHUB_HEAD_REF: ${{ github.head_ref }}
-        GITHUB_BASE_REF: ${{ github.base_ref }}
-        GITHUB_COMMIT: ${{ github.sha }}
-    - name: publish code coverage to code climate
-      if: matrix.os == 'ubuntu-latest'
-      uses: paambaati/codeclimate-action@v2.3.0
-      env:
-        CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE }}
-        GITHUB_BRANCH: ${{ github.ref }}
-        GITHUB_COMMIT: ${{ github.sha }}
-        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
-      with:
-        coverageCommand: npm run test
-        debug: true
-    - name: npm run it
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        ls -lha /dev/shm
-        sudo apt-get update
-        sudo apt-get install xvfb
-        sudo chmod 1777 /dev/shm
-        npm run build
-        xvfb-run --auto-servernum -- bash -c "npm run it"
-      env:
-        GITHUB_BRANCH: ${{ github.ref }}
-        GITHUB_COMMIT: ${{ github.sha }}
-        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
-    - name: npm run dist
-      run: |
-        npm run dist
-      env:
-        GITHUB_BRANCH: ${{ github.ref }}
-        GITHUB_COMMIT: ${{ github.sha }}
-        PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
-    - name: create release
-      id: createrelease
-      uses: gregoranders/nodejs-create-release@v0.0.6
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag: v${{ steps.projectinfo.outputs.version }}
-        name: ${{ steps.projectinfo.outputs.name }} - ${{ steps.projectinfo.outputs.version }} Release
-        target: ${{ github.ref }}
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: nodejs project information
+        id: projectinfo
+        uses: gregoranders/nodejs-project-info@v0.0.7
+      - name: npm install
+        run: |
+          npm install
+      - name: npm run build
+        run: |
+          npm run build
+      - name: npm test
+        run: |
+          npm test
+      - name: test coverage
+        if: matrix.os == 'ubuntu-latest'
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./test/coverage/lcov.info
+        env:
+          CI: true
+      - name: publish code coverage to code climate
+        if: matrix.os == 'ubuntu-latest'
+        uses: paambaati/codeclimate-action@v2.6.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: npm run test
+          coverageLocations: |
+            ./test/coverage/lcov.info:lcov
+      - name: npm run e2e
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          ls -lha /dev/shm
+          sudo apt-get update
+          sudo apt-get install xvfb
+          sudo chmod 1777 /dev/shm
+          npm run build
+          xvfb-run --auto-servernum -- bash -c "npm run e2e"
+      - name: npm run dist
+        run: |
+          npm run dist
+        env:
+          PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
+      - name: create release
+        id: createrelease
+        uses: gregoranders/nodejs-create-release@v0.0.7
+        with:
+          tag: v${{ steps.projectinfo.outputs.version }}
+          name: ${{ steps.projectinfo.outputs.name }} - ${{ steps.projectinfo.outputs.version }} Release
+          target: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
