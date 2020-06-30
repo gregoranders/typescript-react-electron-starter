@@ -42,7 +42,7 @@ const version: () => string = (): string => {
   return '' + PackageJson.version + '-' + gitProperties.branch + '-' + gitProperties.commit;
 };
 
-const arch: () => packager.arch = (): packager.arch => {
+const arch = () => {
   switch (os.arch()) {
     case 'ia32':
       return 'x64';
@@ -134,7 +134,7 @@ gulp.task(
         dir: basePath,
         out: distPath,
         overwrite: true,
-        platform: os.platform().toString() as packager.platform,
+        platform: os.platform().toString(),
         quiet: false,
       })
         .then((paths: string | string[]): void => {
