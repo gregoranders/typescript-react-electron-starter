@@ -149,7 +149,7 @@
     "prettier": "2.0.5",
     "react-test-renderer": "16.13.1",
     "rimraf": "3.0.2",
-    "spectre.css": "0.5.8",
+    "spectre.css": "0.5.9",
     "spectron": "11.0.0",
     "through2": "4.0.2",
     "ts-jest": "26.1.1",
