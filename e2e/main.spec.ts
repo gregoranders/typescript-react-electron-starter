@@ -53,21 +53,27 @@ describe('test', (): void => {
     expect(testSubject.browserWindow.isVisible()).toBeTruthy();
   });
 
-  it('2', (): Promise<void> => {
-    return expect(testSubject.client.getText('body > div > div > h1')).resolves.toBe('Application loaded');
+  it('2', async () => {
+    const element = await testSubject.client.$('h1');
+    return expect(testSubject.client.getElementText(element.elementId)).resolves.toBe('Application loaded');
   });
 
-  it('3', (): Promise<void> => {
-    return expect(testSubject.client.getText('h2')).resolves.toBe('1');
+  it('3', async () => {
+    const element = await testSubject.client.$('h2');
+    return expect(testSubject.client.getElementText(element.elementId)).resolves.toBe('1');
   });
 
-  it('4', (): Promise<void> => {
-    testSubject.client.element('button').click();
-    return expect(testSubject.client.getText('h2')).resolves.toBe('2');
+  it('4', async () => {
+    const element = await testSubject.client.$('h2');
+    const button = await testSubject.client.$('button');
+    await testSubject.client.elementClick(button.elementId);
+    return expect(testSubject.client.getElementText(element.elementId)).resolves.toBe('2');
   });
 
-  it('5', (): Promise<void> => {
-    testSubject.client.element('button').click();
-    return expect(testSubject.client.getText('h2')).resolves.toBe('1');
+  it('5', async () => {
+    const element = await testSubject.client.$('h2');
+    const button = await testSubject.client.$('button');
+    await testSubject.client.elementClick(button.elementId);
+    return expect(testSubject.client.getElementText(element.elementId)).resolves.toBe('1');
   });
 });
