@@ -29,7 +29,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: nodejs project information
         id: projectinfo
-        uses: gregoranders/nodejs-project-info@v0.0.7
+        uses: gregoranders/nodejs-project-info@v0.0.10
       - name: npm install
         run: |
           npm install
@@ -56,6 +56,12 @@ jobs:
           coverageCommand: npm run test
           coverageLocations: |
             ./test/coverage/lcov.info:lcov
+      - name: run codacy-coverage-reporter
+        if: matrix.os == 'ubuntu-latest'
+        uses: codacy/codacy-coverage-reporter-action@master
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: ./test/coverage/lcov.info
       - name: npm run e2e
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -72,7 +78,7 @@ jobs:
           PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
       - name: create release
         id: createrelease
-        uses: gregoranders/nodejs-create-release@v0.0.7
+        uses: gregoranders/nodejs-create-release@v0.0.10
         with:
           tag: v${{ steps.projectinfo.outputs.version }}
           name: ${{ steps.projectinfo.outputs.name }} - ${{ steps.projectinfo.outputs.version }} Release
