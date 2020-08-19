@@ -28,7 +28,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: nodejs project information
         id: projectinfo
-        uses: gregoranders/nodejs-project-info@v0.0.10
+        uses: gregoranders/nodejs-project-info@v0.0.11
       - name: npm install
         run: |
           npm install
@@ -77,7 +77,7 @@ jobs:
           PACKAGE_JSON: ${{ steps.projectinfo.outputs.context }}
       - name: create release
         id: createrelease
-        uses: gregoranders/nodejs-create-release@v0.0.10
+        uses: gregoranders/nodejs-create-release@v0.0.11
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -86,12 +86,12 @@ jobs:
           target: ${{ github.ref }}
       - name: nodejs prepare asset
         id: prepareasset
-        uses: gregoranders/nodejs-prepare-asset@v0.0.10
+        uses: gregoranders/nodejs-prepare-asset@v0.0.11
         with:
           path: ./dist
       - name: upload asset
         id: uploadasset
-        uses: gregoranders/nodejs-upload-asset@v0.0.10
+        uses: gregoranders/nodejs-upload-asset@v0.0.11
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
