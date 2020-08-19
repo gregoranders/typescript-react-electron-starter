@@ -8,17 +8,19 @@ using [React](https://reactjs.org) written in [TypeScript](http://www.typescript
 [![Issues][issues-image]][issues-url]
 [![Code maintainability][code-maintainability-image]][code-maintainability-url] [![Code issues][code-issues-image]][code-issues-url] [![Code Technical Debt][code-tech-debt-image]][code-tech-debt-url]
 
+[![Codacy Badge][codacy-imge]][codacy-url]
+
 [![Main Language][language-image]][code-metric-url] [![Languages][languages-image]][code-metric-url] [![Code Size][code-size-image]][code-metric-url] [![Repo-Size][repo-size-image]][code-metric-url]
 
 ## Features
 
-- TypeScript
-- Jest Unit Tests with Code Coverage
+- [TypeScript][typescript-url]
+- [Jest][jest-url] Unit Tests with Code Coverage
 - GitHub CI Integration (feature, development, master, release)
 - Travis Integration
 - CircleCI Integration
 - AppVeyor Integration
-- Code Quality via Code Climate
+- Code Quality via [Code Climate](./docs/index.md) and Codacy
 
 | GitHub                                                           | Travis                                                       | CircleCI                                                         | AppVeyor                                                         | Coveralls                                                                  |                                                                              |
 | ---------------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -44,12 +46,6 @@ npm install
 
 ```
 npm run build
-```
-
-#### Build GitHub Actions
-
-```
-npm run actions
 ```
 
 ### Testing
@@ -138,3 +134,7 @@ npm run dist
 [appveyor-url]: https://ci.appveyor.com/project/gregoranders/typescript-react-electron-starter
 [appveyor-master-image]: https://img.shields.io/appveyor/build/gregoranders/typescript-react-electron-starter/master
 [appveyor-development-image]: https://img.shields.io/appveyor/build/gregoranders/typescript-react-electron-starter/development
+[typescript-url]: http://www.typescriptlang.org/
+[jest-url]: https://jestjs.io/
+[codacy-imge]: https://app.codacy.com/project/badge/Grade/3c71191775eb4dee9def1e1b9e0bae41
+[codacy-url]: https://www.codacy.com/manual/gregoranders/typescript-react-electron-starter
