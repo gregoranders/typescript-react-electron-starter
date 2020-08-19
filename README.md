@@ -48,12 +48,6 @@ npm install
 npm run build
 ```
 
-#### Build GitHub Actions
-
-```
-npm run actions
-```
-
 ### Testing
 
 #### Test using [Jest](https://jestjs.io/)

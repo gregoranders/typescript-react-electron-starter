@@ -1,4 +1,3 @@
-# https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions
 name: Release CI
 
 on:
@@ -85,12 +84,9 @@ jobs:
           tag: v${{ steps.projectinfo.outputs.version }}
           name: ${{ steps.projectinfo.outputs.name }} - ${{ steps.projectinfo.outputs.version }} Release
           target: ${{ github.ref }}
-      - name: npm run actions
-        run: |
-          npm run actions
-      - name: prepare release
-        id: prepare
-        uses: ./.github/actions/prepare-release
+      - name: nodejs prepare asset
+        id: prepareasset
+        uses: gregoranders/nodejs-prepare-asset@v0.0.10
         with:
           path: ./dist
       - name: upload asset
@@ -100,5 +96,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           id: ${{ steps.createrelease.outputs.id }}
-          path: ${{ steps.prepare.outputs.path }}
-          name: ${{ steps.prepare.outputs.name }}
+          path: ${{ steps.prepareasset.outputs.path }}
+          name: ${{ steps.prepareasset.outputs.name }}
