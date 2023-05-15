@@ -108,7 +108,7 @@
     "@types/react-test-renderer": "16.9.3",
     "@types/rimraf": "3.0.0",
     "@types/through2": "2.0.36",
-    "@typescript-eslint/eslint-plugin": "4.9.1",
+    "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.9.1",
     "archiver": "5.1.0",
     "del": "6.0.0",
